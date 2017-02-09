@@ -49,10 +49,9 @@ app.get('/', function (req, res) {
 
 // After finishing the screening, check if they passed. If so, send them to the demographics page.
 app.post('/screenSubmit', function (req, res) {
-    // TODO: Check if the user passed the screening test.
-
-    console.log('screening submitted');
-    console.log(req.body.question1 + " " + req.body.taskTimeMillis);
+    // TODO: Check if the user passed the screening test. --> see if the answer matched the answer for question 1
+    console.log('screening submitted'); 
+    console.log(req.body.question1 + " " + req.body.taskTimeMillis); 
 
     res.sendFile(__dirname + '/client/demographics.html');
 
@@ -61,7 +60,7 @@ app.post('/screenSubmit', function (req, res) {
 
 // After finishing the demographics sruvey, send the user to the waiting room.
 app.post('/demographics', function (req, res) {
-    // TODO: store the demographics data to firebase, associated with the participant.
+    // TODO: store the demographics data to firebase, associated with the participant. // what specific demographic do we send? 
 
     res.sendFile(__dirname + '/client/waitingRoom.html');
 });
@@ -202,23 +201,22 @@ function startSession(session, waitlistSnapshot)
                 if (i >= session.totalParticipants)
                     return true;    // break
             });
-
+             
 
             // TODO: Set a timeout to be able to end the session when the time is up???
+            //set a timer, end it even if submit is not clicked
+            //onDisconnect() on Fire. timer on client side
         }
     });
 }
 
 // To be called when a session has been finished.
-function sessionCompleted(sessionID)
+function sessionCompleted(sessionID) // update Firebase 
 {
-    // Add the sessionID that was just finished
-
+    // Add the sessionID that was just finished --> Add to where? Firebase? Or should I create another array? 
     // Check the corresponding workflow to see if there are more sessions for this workflow. If so,
-    // create a new session and add it to the end of the session list.
-
-    // Remove this session from status.activeSessions
-
+    // create a new session and add it to the end of the session list. // use  if (sessions[workflowID]) == 0? in another function 
+    // Remove this session from status.activeSessions --> Firebase
     // Each worker should set its logged out time when it leaves session.
     //
 }
