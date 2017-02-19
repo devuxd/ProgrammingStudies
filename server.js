@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
             // We could also then use templating to set up worker specific content in the templates.
             // Like customizing the instructions. Or hiding or showing the chat system for different versions.
 
-            res.sendFile(__dirname + '/client/screening.html/?workerId=5'); // ?workerId=' + workerId);
+            res.sendFile(__dirname + '/client/screening.html');///?workerId=5'); // ?workerId=' + workerId);
         }
         else
         {
@@ -72,6 +72,7 @@ var server = app.listen(8888, function () {
     var host = server.address().address;
     var port = server.address().port;
     firebaseSetup();
+    //console.log('http://localhost:' + port + '/');
 });
 
 function firebaseSetup()
