@@ -17,14 +17,9 @@
             height: 176px;
         }
     </style>
-
 </head>
-
 <body>
-
-
-
-
+<div class="main-div">
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-1" style="padding-left: 0px; padding-right: 0px">
@@ -48,7 +43,6 @@ function go() {
     console.log(myObj.foo[1] + myObj["bar"]);
 }
                 </div>
-
                 <BR>What is the value printed to the console in the program above?
                 <fieldset>
                     <input type="radio" name="question1" value="[1,2,3,4,5]" /> [1,2,3,4,5]<br />
@@ -66,7 +60,7 @@ function go() {
 
                 <input type="hidden" name="taskTimeMillis" id="taskTimeMillis"/>
 
-                <BR><BR><button id="submitPage" class="btn btn-primary">Submit</button>
+                <br><br><button id="submitPage" class="btn btn-primary">Submit</button>
 
             </form>
 
@@ -75,7 +69,7 @@ function go() {
         </div>
     </div>
 </div>
-
+</div>
 <script>
     var question1Editor = ace.edit("question1Code");
     question1Editor.setTheme("ace/theme/chrome");
@@ -92,21 +86,9 @@ function go() {
         $('#taskTimeMillis').val(taskTimeMillis);
 
         // submit workerID and time to take test
-
-
-
         $('#mainForm').submit();
-
     });
 
-
 </script>
-
-
-
-
-
-
-
 </body>
 </html>

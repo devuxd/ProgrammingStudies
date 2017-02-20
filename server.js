@@ -1,30 +1,41 @@
 /**
  * Created by tlatoza on 11/23/15.
+ * updated by Wave Inguane on 02/20/2017.
  */
 "use strict";
 
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set('views', './views');
-app.set('view engine', 'mustache');
 var Firebase = require("firebase");
 var firebaseStudyURL = 'https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1';
 var pastebinURL = 'https://seecoderun.firebaseapp.com/#-';
 var nextSession;             // JSON structure for the next session
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('client'))
+app.set('port',(process.env.PORT || 8888));
+app.set('views', './views');
+app.set('view engine', 'mustache');
 
-
-// Admin action to initialize a new study by creating a set of workflows.
+//Admin action to initialize a new study by creating a set of workflows.
 app.get('/createWorkflows', function (req, res) {
     createWorkflows();
     res.sendFile(__dirname + '/client/successCreatingWorkflows.html');
 });
 
+//TODO: draft a disclaimer
+// Do we keep a record that the participant agreed to the terms of usage
+// or we just let them proceed to the screening task after they have accepted
+// the terms and conditions to participate ?
+// What if they don't click Accept button ?
+app.get('/', function(req, res){
+    res.sendFile(__dirname+'/client/welcome.html');
+});
+
 // When a user first hits the study server, first check if they have already participated.
 // If not, send them to the screening test.
-app.get('/', function (req, res) {
+app.get('/screeningTask', function (req, res) {
     var workerId = req.query.workerId;
 
     // Check if there is already data for this worker in Firebase. If there is, the worker has already participated.
@@ -49,30 +60,32 @@ app.get('/', function (req, res) {
 
 // After finishing the screening, check if they passed. If so, send them to the demographics page.
 app.post('/screenSubmit', function (req, res) {
-    // TODO: Check if the user passed the screening test. --> see if the answer matched the answer for question 1
     console.log('screening submitted'); 
-    console.log(req.body.question1 + " " + req.body.taskTimeMillis); 
-
-    res.sendFile(__dirname + '/client/demographics.html');
+    console.log(req.body.question1 + " " + req.body.taskTimeMillis);
+    var result = req.body.question1;
+    if(result == 7)
+        res.sendFile(__dirname + '/client/demographics.html');
+    else
+        res.sendFile(__dirname + '/client/failedScreening.html');
 
 });
 
 
-// After finishing the demographics sruvey, send the user to the waiting room.
-app.post('/demographics', function (req, res) {
-    // TODO: store the demographics data to firebase, associated with the participant. // what specific demographic do we send? 
-
-    res.sendFile(__dirname + '/client/waitingRoom.html');
+// After finishing the demographics survey, send the user to the waiting room.
+app.post('/waitingroom', function (req, res) {
+    // TODO: store the demographics data to firebase, associated with the participant. // what specific demographic do we send?
+      res.sendFile(__dirname + '/client/waitingRoom.html');
 });
 
 
 
 // Start the server.
-var server = app.listen(8888, function () {
+var server = app.listen(app.get('port'), function () {
     var host = server.address().address;
     var port = server.address().port;
     firebaseSetup();
-    //console.log('http://localhost:' + port + '/');
+
+    console.log('http://localhost:' + port + '/');
 });
 
 function firebaseSetup()
