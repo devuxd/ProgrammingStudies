@@ -74,12 +74,14 @@ app.get('/screeningTask', function (req, res) {
 // demographics page.
 //.................................................................................
 app.post('/screenSubmit', function (req, res) {
-    console.log('screening submitted'); 
-    console.log(req.body.question1 + " " + req.body.taskTimeMillis);
+
+    var taskTime = req.body.taskTimeMillis;
     var result = req.body.question1;
-    if(result == 7)
-        //TODO: Update the demographic collection form
-        //TODO: Wave see feedback email 2/20/2017
+
+    console.log('screening submitted');
+    console.log(result + " " + taskTime);
+
+    if((result == 7) && (taskTime <= 600000))
         res.sendFile(__dirname + '/client/demographics.html');
     else
         res.sendFile(__dirname + '/client/failedScreening.html');
@@ -261,11 +263,11 @@ function startSession(session, waitlistSnapshot)
 //.................................................................................
 // To be called when a session has been finished.
 //.................................................................................
-function sessionCompleted(sessionID) // update Firebase 
+function sessionCompleted(sessionID) // update Firebase
 {
-    // Add the sessionID that was just finished --> Add to where? Firebase? Or should I create another array? 
+    // Add the sessionID that was just finished --> Add to where? Firebase? Or should I create another array?
     // Check the corresponding workflow to see if there are more sessions for this workflow. If so,
-    // create a new session and add it to the end of the session list. // use  if (sessions[workflowID]) == 0? in another function 
+    // create a new session and add it to the end of the session list. // use  if (sessions[workflowID]) == 0? in another function
     // Remove this session from status.activeSessions --> Firebase
     // Each worker should set its logged out time when it leaves session.
     //
