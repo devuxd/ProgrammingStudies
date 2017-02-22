@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
     <link rel="stylesheet" href="styles.css" />
     <style type="text/css">
+
         div {
             border-bottom: 1px solid #efefef;
             margin: 10px;
@@ -19,14 +20,16 @@
         }
         .radio-buttons label {
             float: none;}
+
     </style>
 </head>
 <body>
+
 <div class="main-div">
 <form id="signup" name="signup" action="/waitingroom" method="post" >
     <div>
-        <label for="partID" class="label">ParticipantID</label>
-        <input type="text" name="partID" required="required" id="partID" size="36"
+        <label for="workerID" class="label">ParticipantID</label>
+        <input type="text" name="workerID" required="required" id="workerID" size="36"
                placeholder="Enter string"/>
     </div>
     <div><span class="label">Participation</span>
@@ -38,10 +41,10 @@
     <div>
         <label for="currentstatus" class="label">Current status</label>
         <select name="currentstatus" id="currentstatus">
-            <option value="csundergrade">CS undergrad</option>
+            <option value="cs undergrade">CS undergrad</option>
             <option value="undergrade">Undergrad</option>
-            <option value="grad">Grad student</option>
-            <option value="prof">Professional</option>
+            <option value="grad student">Grad student</option>
+            <option value="professional">Professional</option>
         </select>
     </div>
     <div>
@@ -59,19 +62,25 @@
                placeholder="Enter string"/>
     </div>
     <div>
-        <button id="submitDemos" class="btn btn-primary">Submit</button>
+        <button id="submitDemographics" class="btn btn-primary">Submit</button>
     </div>
 </form>
 </div>
+
 <script>
+    $('#submitDemographics').click(function() {
+        $('#signup').submit();
+    });
+    /*
     $('#submitDemos').click(function() {
         $('#signup').submit(function() {
-            if ($('#username').val() == '') {
+            if ($('#workerID').val() == '') {
                 alert('Please supply a name in the Name field.');
                 return false;
             }
         }); // end submit()
     });
+*/
 </script>
 </body>
 </html>

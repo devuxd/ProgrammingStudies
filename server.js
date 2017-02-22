@@ -88,16 +88,33 @@ app.post('/screenSubmit', function (req, res) {
 
 });
 
-//.................................................................................
+//..................................................................................................
 // After finishing the demographics survey, send the user to the waiting room.
-//.................................................................................
+//..................................................................................................
 app.post('/waitingroom', function (req, res) {
-    // TODO: store the demographics data to firebase, associated with the participant.
-    // TODO: Wave see feedback email 2/20/2017
-    // TODO: Next actual task page Single or Group session ?
-      res.sendFile(__dirname + '/client/waitingRoom.html');
-});
+     // TODO: store the demographics data to firebase, associated with the participant.
+     var workerId = req.body.workerID;
+     var session = req.body.session.valueOf();
 
+    // Check if there is already data for this worker in Firebase.
+    // If there is, the worker has already participated.
+    var workerRef = new Firebase(firebaseStudyURL + '/workers/' + workerId);
+    workerRef.once('value', function(snapshot) {
+        if (snapshot.val() == null) {
+            //add new worker
+            workerRef.push({ 'workerId': workerId,
+                             'session': session});
+
+            console.log('WORKER ID: ' + workerId );
+            if(session == "single"){
+                console.log('DO TASK');
+                res.sendFile(__dirname + '/client/index_content.html');
+            }else
+            res.sendFile(__dirname + '/client/waitingRoom.html');
+        }
+    });
+
+});
 
 //.................................................................................
 // Start the server.
