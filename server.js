@@ -103,10 +103,9 @@ var server = app.listen(app.get('port'), function () {
     var host = server.address().address;
     var port = server.address().port;
 
-    if (nextSession == null)
-        createWorkflows();
-
-    firebaseSetup();
+    if (nextSession == null) //SETUP FOR TESTING
+       createWorkflows();
+       firebaseSetup();
 
     console.log('http://localhost:' + port + '/');
 });
@@ -162,7 +161,7 @@ function createWorkflows()
         var workflow = {};
         workflow.workflowURL = pastebinURL + 'workflowAAAA' + i;
         workflow.timeLimitMins = 10;
-        workflow.participantsPerSession = 2;
+        workflow.participantsPerSession = 3;
         workflow.totalSessions = 1;
         var workflowID = i;
         workflows[workflowID] = workflow;
