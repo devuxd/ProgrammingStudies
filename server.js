@@ -92,6 +92,11 @@ app.post('/demographics', function (req, res) {
             screenTaskTime = null;
 
             console.log('WORKER ID: ' + workerId);
+            req.setTimeout(86400000, function () {
+                req.abort();
+                console.log("display after 24 hours");
+            });
+
 
         }
     });
