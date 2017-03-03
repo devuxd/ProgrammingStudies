@@ -121,13 +121,15 @@
                     if (key == 'sessionURL') {
                         // Navigate to the server session URL, making sure to disable the back button for this URL
                         // (don't want participant joining another session later).
-                        window.location.replace(snapshot.val());
 
-                        console.log("URL : " + snapshot.val());
-                        // $('.main-div').hide();
+                         window.location.replace(snapshot.val());
+                         console.log("URL : " + snapshot.val());
+
+                        //$('.main-div').hide();
                         //$('#main_wrap').show();
 
-                        //$('#frame').attr('src',snapshot.val());
+                       // $('#frame').attr('src',snapshot.val());
+
                     }
                 });
             }
