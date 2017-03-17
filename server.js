@@ -40,7 +40,7 @@ app.get('/', function(req, res){
 // If not, send them to the screening test.
 //.........................................................................................
 
-app.post('/screeningTask', function (req, res) {
+app.post('/screening_task', function (req, res) {
 
     res.sendFile(__dirname + '/client/screening.html');
     // res.sendFile(__dirname + '/client/alreadyParticipated.html');
@@ -50,14 +50,14 @@ app.post('/screeningTask', function (req, res) {
 //.................................................................................................
 // After finishing the screening, check if they passed. If so, send them to the demographics page.
 //.................................................................................................
-app.post('/screenSubmitted', function (req, res) {
+app.post('/screen_submitted', function (req, res) {
     screenTaskTime = req.body.taskTimeMillis;
     var result = req.body.question1;
 
     console.log('screening submitted');
     console.log(result + " " + screenTaskTime);
 
-    if(result == 7) {
+    if((result == 7)  &&   (screenTaskTime <= 300000)) {//5 min
         res.sendFile(__dirname + '/client/demographics.html');
     }
     else
@@ -67,7 +67,7 @@ app.post('/screenSubmitted', function (req, res) {
 //..................................................................................................
 // After finishing the demographics survey, send the user to the waiting room.
 //..................................................................................................
-app.post('/demographics', function (req, res) {
+app.post('/ProgrammingStudy', function (req, res) {
     // TODO: store the demographics data to firebase, associated with the participant.
     //DONE
     var workerId = req.body.workerID;
@@ -88,18 +88,10 @@ app.post('/demographics', function (req, res) {
                 'developerExp': yearsOfDevExp,
                 'screenTime': screenTaskTime + " ms"
             });
-            //reset
-            screenTaskTime = null;
-
-            console.log('WORKER ID: ' + workerId);
-            req.setTimeout(86400000, function () {
-                req.abort();
-                console.log("display after 24 hours");
-            });
-
-
         }
     });
+
+    res.sendFile(__dirname + '/client/waitingRoom.html');
 
 });
 
@@ -110,9 +102,9 @@ var server = app.listen(app.get('port'), function () {
     var port = server.address().port;
 
     if (nextSession == null) //SETUP FOR TESTING
-       createWorkflows();
+        createWorkflows();
 
-       firebaseSetup();
+    firebaseSetup();
 
     console.log('http://localhost:' + port + '/');
 });
@@ -136,7 +128,7 @@ function createWorkflows()
         var workflow = {};
         workflow.workflowURL = pastebinURL + 'workflowXYZ' + i;
         workflow.timeLimitMins = 10;
-        workflow.participantsPerSession = 3;
+        workflow.participantsPerSession = 2;
         workflow.totalSessions = 1;
         var workflowID = i;
         workflows[workflowID] = workflow;
@@ -288,3 +280,40 @@ function sessionCompleted(sessionID) // update Firebase
     // Each worker should set its logged out time when it leaves session.
     //
 }
+
+
+//.................................................................................................
+// Dropouts    I am still testing this
+//.................................................................................................
+app.post('/dropout', function (req, res) {
+    var  timeSpent = req.body.taskEnded;
+    var  workerId = req.body.participantId;
+
+    // dropoutTime = Math.floor(dropoutTime/60000);//min
+
+    console.log("Participant: " + workerId + ' exited in '+ timeSpent + ' ms');
+    //var i = 0;
+    //for (; i < 5; i++) {
+        var workerRef = new Firebase(firebaseStudyURL + '/sessions/' + 0 + '/workers/' + 0);
+        workerRef.once('value', function (snapshot) {
+            var key = snapshot.key();
+            if (key == '0' && snapshot.val().toString(0) == workerId) {
+                //update
+                workerRef.set({
+                    'id': workerId,
+                    timeSpentMillis: timeSpent,
+                });
+            }
+        });
+    //}
+
+});
+
+
+
+
+
+
+
+
+

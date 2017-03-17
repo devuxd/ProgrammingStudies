@@ -8,9 +8,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+<!--welcome--------------------------------------------------------->
+
 <div class="main-div">
     <h2>Welcome to Programming Studies</h2>
     <br>
@@ -21,27 +25,34 @@
 </div>
 <div class="accept-button">
     <br>
-    <form id="displayTest" action="/screeningTask" method="post">
-        <button id="acceptTerms" class="btn btn-primary far-right">Accept</button>
+    <form id="display_test" action="/screening_task" method="post">
+        <button id="accept_terms" class="btn btn-primary far-right">Accept</button>
     </form>
 </div>
-<!-- -->
+
+<!--End welcome div ---->
+
 <script>
+    //--------------------------------------------------------------------
+    // Script
+    //--------------------------------------------------------------------
+    //Handle welcome div
     if ($) {
         $(document).ready(
-            function() {
-                $('p').addClass('readable-font');
-            }
-        );
+                function() {
+                    $('p').addClass('readable-font');
+                });
     }
-
-    $('#acceptTerms').click(function () {
-        $('#displayTest').submit();
-
+    $('#accept_terms').click(function () {
+        $('#display_test').submit();
     });
+
+
+    //---------------
+    //End script
+    //---------------
 </script>
 
 </body>
-
-
 </html>
+

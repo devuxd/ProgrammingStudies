@@ -14,16 +14,44 @@
 <div class="main-div">
     <h2>Waiting for participants to join.</h2>
 </div>
+<!--  https://api.jquery.com/remove/ -->
+<!-- <p id="tracking"></p> -->
+
+<div id="mainwrap">
+    <!--<div id="content">-->
+    <iframe  id = "frame" src="" width="100%" style="height: 75vh;" scrolling="no" frameborder="0">
+
+    </iframe>
+    <!--
+</div>
+<div id="sidebar">
+-->
+    <iframe  id = "sideFrame" src="" width="100%" style="height: 20vh;" scrolling="no" frameborder="0">
+
+    </iframe>
+
+    <!--<p> This is where the instructions would go</p>-->
+
+    <button id = "button1"  class="btn btn-primary far-right" type="button" value = "Next">Next</button>
+
+    <form type="hidden" id="exitTime" action="/dropout" method="post">
+        <input type="hidden" name="taskEnded" id="taskEnded"/>
+        <input type="hidden" name="participantId" id="participantId"/>
+    </form>
+
+</div>
+<!--</div>-->
 </body>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
-
-<!--
 <script>
-    // Utility function to get URL parameter.
-    // From http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
-    var getUrlParameter = function getUrlParameter(sParam) {
+    var startTimeMillis = 0;
+    var inFormOrLink = null;
+    /**
+     // Utility function to get URL parameter.
+     // From http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
+     var getUrlParameter = function getUrlParameter(sParam) {
 
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
                 sURLVariables = sPageURL.split('&'), sParameterName, i;
@@ -36,15 +64,24 @@
             }
         }
     };
+     */
 
 
-    var userID =  getUrlParameter('workerID');
-    console.log("userID = " + userID);
+    $('#frame').hide();
+    $('#sideFrame').hide();
+    $('#mainwrap').hide();
+    $('#sidebar').hide();
+    var waiting = localStorage.getItem("candidate");
+    if(waiting != null) {
+        var workerPresent = JSON.parse(waiting);
+    }
+    var id =  workerPresent[0];//getUrlParameter('workerID');
+    console.log("userID = " + id);//DEBUG
 
     var waitListRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/waitlist');
 
     // Add an entry to the waitlist to start waiting for a session to be assigned.
-    var waitEntryRef = waitListRef.push({ "workerId": userID });
+    var waitEntryRef = waitListRef.push({ "workerId": id});
 
     // If we disconnect before we get assigned a room, remove us from the waiting list.
     waitEntryRef.onDisconnect().set(null);
@@ -60,12 +97,53 @@
         if (key == 'sessionURL') {
             // Navigate to the server session URL, making sure to disable the back button for this URL
             // (don't want participant joining another session later).
-            window.location.replace(snapshot.val());
+
+            //window.location.replace(snapshot.val());
+            $('#frame').attr('src', snapshot.val());
+            $('.main-div').hide();
+            $('h2').remove();
+            $('#frame').show();
+            $('#mainwrap').show();
+            $('#sidebar').show();
+            $('#sideFrame').show();
+            waitEntryRef.set(null);
+
+            var startTime = new Date();
+            startTimeMillis =  startTime.getTime();
         }
     });
 
+    //record window closing time
+    window.addEventListener('beforeunload', function(event) {
+        var endTime = new Date();
+        var taskTimeMillis = endTime.getTime() - startTimeMillis;
+        $('#taskEnded').val(taskTimeMillis);
+        $('#participantId').val(id);
+        $('#exitTime').submit();
+
+        setTimeout(function(){console.log("data sent ");}, 3000);
+    });
 
 </script>
--->
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+    //var locations = ["welcome.html", "successCreatingWorkflows.html", "demographics.html","screening.html"];
+    var locations = ["instructions1.html", "instructions2.html"];
+    var currentIndex = 0;
+    var len = locations.length;
+    //var len2 = locations2.length;
+    $(document).ready(function(){
+        $('#button1').click(function() {
+            currentIndex = this.value == "Next" ?
+                    currentIndex < len - 1 ? ++currentIndex : 0 :
+                    //changed from a colon to a semicolon
+                    currentIndex > 0 ? --currentIndex : len - 1;
+            //currentIndex > 0 ? --currentIndex : len2 - 1;
+
+            //$('#frame').attr('src', locations[currentIndex]);
+            $('#sideFrame').attr('src', locations[currentIndex]);
+        });
+    });
+</script>
 </html>
