@@ -1,6 +1,6 @@
 /**
  * Created by tlatoza on 11/23/15.
- * updated by Wave Inguane on 03/22/2017.
+ * updated by Wave Inguane on 03/24/2017.
  */
 "use strict";
 
@@ -19,7 +19,7 @@ var screenTaskTime;          //time spent on screening task
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('client'));
-app.set('port',(process.env.PORT || 8889));
+app.set('port',(process.env.PORT || 8888));
 //app.set('views', './views');
 //app.set('view engine', 'mustache');
 
