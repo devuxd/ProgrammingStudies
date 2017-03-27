@@ -135,6 +135,7 @@
             //url.replace(/#-/g, "#:-");
             // window.location.replace(snapshot.val());
 
+
             //---------------------------------------------------
             $('#frame').attr('src', snapshot.val());
 
@@ -161,14 +162,15 @@
 
             var startTime = new Date();
             startTimeMillis =  startTime.getTime();
-
+            //Testing times
             //Time lapse warnings
-            setTimeout(function(){ alert("you have 5 minutes left");}, 300000);
-            setTimeout(function(){ alert("1 minute left");}, 540000);
+            setTimeout(function(){ alert("you have 30sec left");}, 9000); //300000
+            //setTimeout(function(){ alert("1 minute left");}, 540000);
             setTimeout(function(){
                 //send a thank you note
-                alert("Thank you for your participation");
-            }, 600000);
+                //alert("Thank you for your participation");
+                $("#exitTime").submit();
+            }, 18000);
 
         }
     });
@@ -188,12 +190,16 @@
         zflags[id] = exitData;
         return zflags;
     }
-
+    //---------------------------------------------------------------------------------------------------------------------------------
+    //
+    //---------------------------------------------------------------------------------------------------------------------------------
     function setRef(sessionID) {
         var flagRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/sessions/' + sessionID);
 
         flagRef.onDisconnect().update(onClose());
     }
+
+
 
     //------------------------------------------------
     // use this function to reset state
@@ -201,11 +207,11 @@
     function resetNewUsers(){
         localStorage.removeItem("newUsersKey");
     }
+
+
 </script>
 
-//---------------------------------------------------------------------------------------------------------------------------------
-//
-//---------------------------------------------------------------------------------------------------------------------------------
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script>
     //<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"><script>

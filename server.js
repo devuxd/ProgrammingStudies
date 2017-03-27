@@ -15,10 +15,11 @@ var sessions = {};
 var sessionMembers = {};
 var activeSessions = {};
 var screenTaskTime;          //time spent on screening task
+var flag = false;
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('client'));
-app.set('port',(process.env.PORT || 8888));
+app.set('port',(process.env.PORT || 8889));
 //app.set('views', './views');
 //app.set('view engine', 'mustache');
 
@@ -153,7 +154,7 @@ function createWorkflows()
         workflow.workflowURL = pastebinURL;// + 'workflowXYZ' + 0;
         workflow.timeLimitMins = 10;
         workflow.participantsPerSession = 2;
-        workflow.totalSessions = 1;
+        workflow.totalSessions = 3;
         var workflowID = i;
         workflows[workflowID] = workflow;
 
@@ -294,12 +295,13 @@ function startSession(session, waitlistSnapshot)
             //set a timer, end it even if submit is not clicked
             //onDisconnect() on Fire. timer on client side
             //DONE
-            setTimeout(timeOut, 15000, nextSessionId);//now set to 15sec
-            //600000 ms = 10min
+            setTimeout(timeOut, 17000, nextSessionId);//testing time
+            // 10min to be used later
         }
     });
 
 }
+
 //Timer
 function timeOut (sessionID) {
     console.log('session => ' + sessionID + " timed out");
@@ -311,7 +313,14 @@ function timeOut (sessionID) {
     sessionRef.update(timeOutData);
 
     sessionCompleted(sessionID);
+
 }
+
+app.post('/dropout', function (req, res) {
+
+    res.sendFile(__dirname+'/client/debrief.html');
+});
+
 
 // To be called when a session has been finished.
 function sessionCompleted(sessionID) // update Firebase
@@ -330,42 +339,41 @@ function sessionCompleted(sessionID) // update Firebase
 
     //2.Check the corresponding workflow to see if there are more sessions for this workflow.
     // If so,
-    // create a new session and add it to the end of the session list.
-    // use  if (sessions[workflowID]) == 0? in another function
-    //TODO handle sessions with multiple steps
+    // create a new session and add it to the end of the session list. // use  if (sessions[workflowID]) == 0? in another function
 
 
 
+    //3. Remove this session from status.activeSessions --> Firebase
 
-        //3. Remove this session from status.activeSessions --> Firebase
-        var ref = new Firebase(firebaseStudyURL + '/status/activeSessions/');
-        ref.once("value", function (snapshot) {
-            console.log(snapshot.val());
-        }, function (error) {
-            console.log("Error: " + error.code);
+    var ref = new Firebase(firebaseStudyURL + '/status/activeSessions/');
+    ref.once("value", function(snapshot) {
+        console.log(snapshot.val());
+    }, function (error) {
+        console.log("Error: " + error.code);
+    });
+
+
+    var queryA = new Firebase(firebaseStudyURL + '/status/activeSessions');
+    queryA.once("value").then(function(snapshotA) {
+        snapshotA.forEach(function(childSnapshotA) {
+            // childDataA will be the actual contents of the child
+            var childDataA = childSnapshotA.val().sessionID;
+            console.log("childA " + childDataA);
+            if((childDataA == sessionID)){
+                var adaRef = new Firebase(firebaseStudyURL + '/status/activeSessions/'+ childSnapshotA.key() +'/sessionID');
+                adaRef.remove().then(function() {
+                    console.log("Remove succeeded.");
+                }).catch(function(error) {
+                    console.log("Remove failed: " + error.message);
+                });
+
+                return true;
+            }
         });
-
-
-        var queryA = new Firebase(firebaseStudyURL + '/status/activeSessions');
-        queryA.once("value").then(function (snapshotA) {
-            snapshotA.forEach(function (childSnapshotA) {
-                // childDataA will be the actual contents of the child
-                var childDataA = childSnapshotA.val().sessionID;
-                console.log("childA " + childDataA);
-                if ((childDataA == sessionID)) {
-                    var adaRef = new Firebase(firebaseStudyURL + '/status/activeSessions/' + childSnapshotA.key() + '/sessionID');
-                    adaRef.remove().then(function () {
-                        console.log("Remove succeeded.");
-                    }).catch(function (error) {
-                        console.log("Remove failed: " + error.message);
-                    });
-
-                    return true;
-                }
-            });
-        });
+    });
 
     //4. Each worker should set its logged out time when it leaves session.
     //DONE on the client side
 
 }
+
