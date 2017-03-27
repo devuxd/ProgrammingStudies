@@ -66,6 +66,7 @@
 <!--</div>-->
 
 <div id="clock2"></div>
+<div id="DEBUG"></div>
 </body>
 
 
@@ -130,8 +131,13 @@
             // Navigate to the server session URL, making sure to disable the back button for this URL
             // (don't want participant joining another session later).
 
-            //window.location.replace(snapshot.val());
+            //var url = snapshot.val();
+            //url.replace(/#-/g, "#:-");
+            // window.location.replace(snapshot.val());
+
+            //---------------------------------------------------
             $('#frame').attr('src', snapshot.val());
+
             $('.main-div').hide();
             $('h2').remove();
             $('#frame').show();
@@ -139,6 +145,8 @@
             $('#sidebar').show();
             $('#sideFrame').show();
             $('#clock2').show();
+
+            //----------------------------------------------------
 
             var sessionFlag = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/status');
             sessionFlag.once("value", function (childSnapshot){
@@ -154,10 +162,20 @@
             var startTime = new Date();
             startTimeMillis =  startTime.getTime();
 
-            //setTimeout(function(){ alert("Time is up"); }, 9000);
+            //Time lapse warnings
+            setTimeout(function(){ alert("you have 5 minutes left");}, 300000);
+            setTimeout(function(){ alert("1 minute left");}, 540000);
+            setTimeout(function(){
+                //send a thank you note
+                alert("Thank you for your participation");
+            }, 600000);
+
         }
     });
 
+
+
+    //parent.location or top.location
 
     function onClose(){
         var zflags = {};
@@ -170,36 +188,12 @@
         zflags[id] = exitData;
         return zflags;
     }
-    //---------------------------------------------------------------------------------------------------------------------------------
-    //
-    //---------------------------------------------------------------------------------------------------------------------------------
+
     function setRef(sessionID) {
         var flagRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/sessions/' + sessionID);
 
         flagRef.onDisconnect().update(onClose());
     }
-
-
-
-    /*
-     $(document).ready(function(){
-     $(window).on('beforeunload', function(){
-
-     var endTime = new Date();
-     var taskTimeMillis = endTime.getTime() - startTimeMillis;
-     $('#taskEnded').val(taskTimeMillis);
-     $('#participantId').val(id);
-
-     $('#participantPosition').val(Number(index));
-
-     $('#exitTime').submit();
-
-     //setTimeout(function(){console.log("data sent ");}, 3000);
-     return " ? ";
-     });
-
-     });
-     */
 
     //------------------------------------------------
     // use this function to reset state
@@ -207,11 +201,11 @@
     function resetNewUsers(){
         localStorage.removeItem("newUsersKey");
     }
-
-
 </script>
 
-
+//---------------------------------------------------------------------------------------------------------------------------------
+//
+//---------------------------------------------------------------------------------------------------------------------------------
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script>
     //<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"><script>
@@ -233,6 +227,7 @@
         });
     });
 </script>
+
 
 
 </html>

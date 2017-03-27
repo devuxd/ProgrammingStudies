@@ -66,6 +66,9 @@
             <input type="text" name="workDevExp" required="required"  id="workDevExp" size="36"
                    placeholder="Enter number"/>
         </div>
+
+        <input type="hidden" name="demographicsCollectTimeMillis" id="demographicsCollectTimeMillis"/>
+
         <div>
             <button id="submitDemographics" class="btn btn-primary">Submit</button>
         </div>
@@ -79,6 +82,10 @@
 
 <script>
 
+
+    var startTime = new Date();
+    var startTimeMillis =  startTime.getTime();
+
     $('#submitDemographics').click(function() {
         $('#signup').submit(function(){
             var userID =  $('#workerID').val();
@@ -86,6 +93,11 @@
                 alert('Please supply a name in the Name field.');
                 return false;
             }else{
+                var endTime = new Date();
+                var taskTimeMillis = endTime.getTime() - startTimeMillis;
+                $('#demographicsCollectTimeMillis').val(taskTimeMillis);
+
+
                 //save to local storage
                 resetStage();
                 stageCandidate();
@@ -95,60 +107,6 @@
         });
     });
 
-
-
-    /**
-     $('#main_wrap').hide();
-     $('#content').hide();
-     $('#sidebar').hide();
-
-     $('#submitDemographics').click(function() {
-        $('#signup').submit(function(){
-            var userID =  $('#workerID').val();
-            if (userID == '') {
-                alert('Please supply a name in the Name field.');
-                return false;
-            }else{
-
-                $('#signup').hide(); //hide the form
-                $('h2').text("Waiting for participants to join.");
-
-                console.log( "\nI am here\n");
-                var waitListRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/waitlist');
-
-                // Add an entry to the waitlist to start waiting for a session to be assigned.
-                var waitEntryRef = waitListRef.push({ "workerId": userID});
-
-                // If we disconnect before we get assigned a room, remove us from the waiting list.
-                waitEntryRef.onDisconnect().set(null);
-
-
-                // TODO: we want to watch only for changes to the entry for this element, not all changes.
-
-
-                // When the server assigns a session for us, it will set in on firebase. Watch for this to happen. When it
-                // does, join the session.
-                waitEntryRef.on("child_added", function(snapshot) {
-                    var key = snapshot.key();
-                    if (key == 'sessionURL') {
-                        // Navigate to the server session URL, making sure to disable the back button for this URL
-                        // (don't want participant joining another session later).
-
-                        //window.location.replace(snapshot.val());
-
-                        $('.main-div').hide();
-                        $('#main_wrap').show();
-                        $('#content').show();
-                        $('#sidebar').show();
-
-                        $('#frame').attr('src',snapshot.val());
-                        waitEntryRef.set(null); //clear wait list
-                    }
-                });
-            }
-        });
-    });
-     */
 </script>
 
 <script>
@@ -199,7 +157,7 @@
                     // countTracker.push(1);
                     localStorage.setItem("candidate", JSON.stringify(candidateStage));
                     //localStorage.setItem("numOfSearches", JSON.stringify(countTracker));
-                    //display.innerHTML = curr_name +"<br />";
+                    display.innerHTML = curr_name +"<br />";
 
                 }else{// inc count
                     //countTracker[index] = countTracker[index] + 1;
