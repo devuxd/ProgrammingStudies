@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d97a2935-e586-4600-94c1-689600b258cd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/debrief.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/waitingRoom.html" afterPath="$PROJECT_DIR$/client/waitingRoom.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
     </list>
     <ignored path="ProgrammingStudies.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,7 +52,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debrief.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="debrief.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/debrief.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -63,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="waitingRoom.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="waitingRoom.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/waitingRoom.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="622">
-              <caret line="183" column="30" lean-forward="true" selection-start-line="183" selection-start-column="30" selection-end-line="183" selection-end-column="30" />
+            <state relative-caret-position="486">
+              <caret line="175" column="7" lean-forward="true" selection-start-line="175" selection-start-column="7" selection-end-line="175" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -122,9 +121,9 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-153" />
-    <option name="y" value="-1208" />
-    <option name="width" value="1936" />
+    <option name="x" value="240" />
+    <option name="y" value="-1002" />
+    <option name="width" value="1400" />
     <option name="height" value="1216" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -348,18 +347,18 @@
       <workItem from="1490196879050" duration="215000" />
       <workItem from="1490237817760" duration="5080000" />
       <workItem from="1490498235564" duration="33000" />
-      <workItem from="1490621126242" duration="4922000" />
+      <workItem from="1490621126242" duration="5211000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75316000" />
+    <option name="totallyTimeSpent" value="75605000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-153" y="-1208" width="1936" height="1216" extended-state="6" />
+    <frame x="240" y="-1002" width="1400" height="1216" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18387777" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25624081" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -741,10 +740,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/waitingRoom.html">
+    <entry file="file://$PROJECT_DIR$/client/debrief.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="183" column="30" lean-forward="true" selection-start-line="183" selection-start-column="30" selection-end-line="183" selection-end-column="30" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -776,10 +775,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/debrief.html">
+    <entry file="file://$PROJECT_DIR$/client/waitingRoom.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="486">
+          <caret line="175" column="7" lean-forward="true" selection-start-line="175" selection-start-column="7" selection-end-line="175" selection-end-column="7" />
           <folding />
         </state>
       </provider>
