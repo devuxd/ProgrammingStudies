@@ -33,6 +33,19 @@
     </script>
 </head>
 <body onload="startTime()">
+
+<div class="main-div1">
+    <h2>Thank you for participating in this study</h2>
+    <br>
+    <p>We hope that you found the study informative and worthwhile. Our primary goal was to increase
+        your understanding in what a mass can achieve given an appropriate platform where software
+        development can be carried out timely and to introduce and provide resources that will
+        support your classroom instruction.
+    </p>
+    <p></p>
+    <br>
+</div>
+
 <div class="main-div">
     <h2>Waiting for participants to join.</h2>
     <div id="clock"></div>
@@ -58,7 +71,8 @@
     <button id = "button1"  class="btn btn-primary far-right" type="button" value = "Next">Next</button>
 </div>
 
-<form type="hidden" id="exitTime" action="/dropout" method="post">
+
+<form type="hidden" id="exitTime" action="/acknowledgement" method="post">
     <input type="hidden" name="taskEnded" id="taskEnded"/>
     <input type="hidden" name="participantId" id="participantId" />
     <input type="hidden" name="participantPosition" id="participantPosition" />
@@ -78,6 +92,7 @@
     var tempList;
     var sessionId;
 
+    $('.main-div1').hide();
     $('#frame').hide();
     $('#sideFrame').hide();
     $('#mainwrap').hide();
@@ -120,9 +135,27 @@
     waitEntryRef.onDisconnect().set(null);
 
 
+    function onClose(){
+        var zflags = {};
+        var exitData = {
+            onlineState: "off",
+            exitTime : Firebase.ServerValue.TIMESTAMP
+        };
+        zflags[id] = exitData;
+        return zflags;
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------
+    //
+    //---------------------------------------------------------------------------------------------------------------------------------
+    function setRef(sessionID) {
+        var flagRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/sessions/' + sessionID);
+        flagRef.onDisconnect().update(onClose());
+    }
+
+
+
     // TODO: we want to watch only for changes to the entry for this element, not all changes.
-
-
     // When the server assigns a session for us, it will set in on firebase. Watch for this to happen. When it
     // does, join the session.
     waitEntryRef.on("child_added", function(snapshot) {
@@ -133,14 +166,36 @@
 
             //var url = snapshot.val();
             //url.replace(/#-/g, "#:-");
-            // window.location.replace(snapshot.val());
+           // window.location.replace(snapshot.val());
 
 
-            //---------------------------------------------------
+           //var url = window.location.href;//.substring(1);
+           // $('DEBUG').innerHTML = url;
+           // console.log("URL: " + url);
+           // window.location.replace("http://wavelino.coffeecup.com/");
+
+
+           //$('#frame').attr('src', snapshot.val());
+
+            /*
+            document.getElementById("DEBUG").innerHTML =
+                "Page location is " + window.location.href;
+            var url = window.location.href;//.substring(1);
+            //$('DEBUG').innerHTML = url;
+            console.log("URL: " + url);
+             */
+            /*
+            var url = window.location.search;//.substring(1);
+            $('DEBUG').innerHTML = url;
+            console.log("URL: " + url);
+            */
+
+
+           //---------------------------------------------------
             $('#frame').attr('src', snapshot.val());
 
             $('.main-div').hide();
-            $('h2').remove();
+            $('h2').hide();
             $('#frame').show();
             $('#mainwrap').show();
             $('#sidebar').show();
@@ -150,10 +205,11 @@
             //----------------------------------------------------
 
             var sessionFlag = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/status');
-            sessionFlag.once("value", function (childSnapshot){
+                sessionFlag.once("value", function (childSnapshot){
                 sessionId = childSnapshot.val().nextSessionID;
-                console.log(" session: "+ sessionId);
+               //console.log("session: "+ sessionId);
                 setRef((sessionId - 1));
+
             });
 
             waitEntryRef.set(null);
@@ -162,44 +218,55 @@
 
             var startTime = new Date();
             startTimeMillis =  startTime.getTime();
-            //Testing times
+
             //Time lapse warnings
-            setTimeout(function(){ alert("you have 30sec left");}, 9000); //300000
+            //setTimeout(function(){ alert("you have 5min left");}, 300000); //300000
             //setTimeout(function(){ alert("1 minute left");}, 540000);
             setTimeout(function(){
                 //send a thank you note
-                //alert("Thank you for your participation");
-                $("#exitTime").submit();
-            }, 17000);
+
+                $('#frame').hide();
+                $('#mainwrap').hide();
+                $('#sidebar').hide();
+                $('#sideFrame').hide();
+                $('#clock2').hide();
+                $('h2').show();
+                $('.main-div1').show();
+
+                //alert("Thank you for your participation");//use div DOM
+
+          // $("#exitTime").submit();
+                //var flagRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/sessions/' + sessionId-1);
+                //flagRef.update(onClose());
+
+            }, 15000);
 
         }
     });
 
 
 
-    //parent.location or top.location
+//parent.location or top.location
 
-    function onClose(){
-        var zflags = {};
-        var date = new Date();
-        var exitData = {
-            onlineState: "off",
-            exitTime : Firebase.ServerValue.TIMESTAMP
-            //update the time at firebase when we get there
-        };
-        zflags[id] = exitData;
-        return zflags;
-    }
-    //---------------------------------------------------------------------------------------------------------------------------------
-    //
-    //---------------------------------------------------------------------------------------------------------------------------------
-    function setRef(sessionID) {
-        var flagRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/sessions/' + sessionID);
+    /*
+        $(document).ready(function(){
+            $(window).on('beforeunload', function(){
 
-        flagRef.onDisconnect().update(onClose());
-    }
+                var endTime = new Date();
+                var taskTimeMillis = endTime.getTime() - startTimeMillis;
+                $('#taskEnded').val(taskTimeMillis);
+                $('#participantId').val(id);
 
+                $('#participantPosition').val(Number(index));
 
+                $('#exitTime').submit();
+
+                //setTimeout(function(){console.log("data sent ");}, 3000);
+                return " ? ";
+            });
+
+        });
+    */
 
     //------------------------------------------------
     // use this function to reset state
