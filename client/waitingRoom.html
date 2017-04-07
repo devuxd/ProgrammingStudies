@@ -239,34 +239,10 @@
                 //var flagRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/sessions/' + sessionId-1);
                 //flagRef.update(onClose());
 
-            }, 15000);
+            }, 600000);
 
         }
     });
-
-
-
-//parent.location or top.location
-
-    /*
-        $(document).ready(function(){
-            $(window).on('beforeunload', function(){
-
-                var endTime = new Date();
-                var taskTimeMillis = endTime.getTime() - startTimeMillis;
-                $('#taskEnded').val(taskTimeMillis);
-                $('#participantId').val(id);
-
-                $('#participantPosition').val(Number(index));
-
-                $('#exitTime').submit();
-
-                //setTimeout(function(){console.log("data sent ");}, 3000);
-                return " ? ";
-            });
-
-        });
-    */
 
     //------------------------------------------------
     // use this function to reset state

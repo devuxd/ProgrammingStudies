@@ -22,7 +22,7 @@ var flag = false;
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('client'));
-app.set('port',(process.env.PORT || 8889));
+app.set('port',(process.env.PORT || 8888));
 //app.set('views', './views');
 //app.set('view engine', 'mustache');
 
@@ -155,7 +155,7 @@ function createWorkflows()
         var workflow = {};
         workflow.workflowURL = pastebinURL +'workflowXYZ' + i;
         workflow.timeLimitMins = 10;
-        workflow.participantsPerSession = 1;
+        workflow.participantsPerSession = 2;
         workflow.totalSessions = Math.floor((Math.random() * 4) + 1);
         var workflowID = i;
         workflows[workflowID] = workflow;
@@ -318,8 +318,8 @@ function startSession(session, waitlistSnapshot)
             // TODO: Set a timeout to be able to end the session when the time is up
             //set a timer, end it even if submit is not clicked
             //onDisconnect() on Fire. timer on client side
-            //DONE
-            setTimeout(timeOut, 15000, nextSessionId);//10min
+            //DONE              15000
+            setTimeout(timeOut, 600000, nextSessionId);//10min
 
         }
     });
@@ -496,31 +496,27 @@ function updateSession(i, sessionID){
 
 }
 
-function getNextSessionID(callback){
+function getNextSessionID(callback) {
 
     var queryA = new Firebase(firebaseStudyURL + '/sessions/');
     queryA.once("value").then(function(snapshotA) {
-
         snapshotA.forEach(function(childSnapshotA) {
             if(childSnapshotA.val().hasOwnProperty('done'))
             {
                 var queryB = new Firebase(firebaseStudyURL + '/sessions/' + childSnapshotA.key());
                 queryB.once("value").then(function (snapshotB) {
                     snapshotB.forEach(function (childSnapshotB) {
-                        var childBKey = childSnapshotB.key();// && (childSnapshotB.val().hasOwnProperty('sessionURL'))
+                        var childBKey = childSnapshotB.key();
                         if (childBKey == 'sessionID') {
                             var actualNextSession = childSnapshotB.val();
-                            //console.log("B : " +childSnapshotB.val() +" ActualNextSession :" +actualNextSession);
                             callback(actualNextSession);
-                            //return true;
                         }
                     });
                 });
             }
         });
-
     });
-
+    //return value, not applicable
 }
 
 //-----------------------------------------------------------------------------
