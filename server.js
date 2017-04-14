@@ -9,7 +9,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var Firebase = require("firebase");
 var firebaseStudyURL = 'https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1';
-var pastebinURL = 'https://seecoderun.firebaseapp.com/#-';
+//var pastebinURL = 'https://seecoderun.firebaseapp.com/#-';
+var pastebinURL = 'https://seecoderun.firebaseio.com/test/-workflowXYZ0/content/share/events';
 var nextSession;
 var nextSessionId = 0;
 var multipleStepsSessionID = 0;
@@ -153,7 +154,8 @@ function createWorkflows()
     for (var i=0; i < totalWorkflowCount; i++) {
 
         var workflow = {};
-        workflow.workflowURL = pastebinURL +'workflowXYZ' + i;
+        workflow.workflowURL = pastebinURL;//+'workflowXYZ' + i;
+
         workflow.timeLimitMins = 10;
         workflow.participantsPerSession = 2;
         workflow.totalSessions = Math.floor((Math.random() * 4) + 1);
