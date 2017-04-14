@@ -1,6 +1,6 @@
 /**
  * Created by tlatoza on 11/23/15.
- * updated by Wave Inguane on 03/27/2017.
+ * updated by Wave Inguane on 04/13/2017.
  */
 "use strict";
 
@@ -304,11 +304,24 @@ function startSession(session, waitlistSnapshot)
                 var workerWaitlistRef = new Firebase(firebaseStudyURL + '/waitlist/' + waitlistEntrySnapshot.key() + '/sessionURL');
                 var str = session.workflowURL;
                 workerWaitlistRef.set(str);
-                //console.log("URL : " + str);
 
 
-                //var share = str.replace(/#-/g, "#:-");
-                //workerWaitlistRef.push(share);
+                var index = status.nextSessionID - 1
+                var urlRef = new Firebase(firebaseStudyURL + '/sessions/' + index);
+                urlRef.once('value', function (snapshot) {
+                    snapshot.forEach(function (childSnapshotP) {
+                        var childKey = childSnapshotP.key();
+                        if (childKey == 'workflowURL') {
+
+                            workerWaitlistRef.update({'workflowURL': childSnapshotP.val()});
+                            //console.log("URL: " + childSnapshotP.val() + "\n");
+
+                        }
+                    });
+                });
+
+
+
 
                 i++;
                 // If we've selected all of the participants, break.
@@ -316,6 +329,8 @@ function startSession(session, waitlistSnapshot)
                     return true;    // break
                 }
             });
+
+
 
             // TODO: Set a timeout to be able to end the session when the time is up
             //set a timer, end it even if submit is not clicked
