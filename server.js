@@ -63,7 +63,7 @@ app.post('/screen_submitted', function (req, res) {
     console.log('screening submitted');
     console.log(result + " " + screenTaskTime);
 
-    if((result == 7)  &&   (screenTaskTime <= 600000)) {//10 min
+    if ((result == 7) && (screenTaskTime <= 600000)) {//10 min
         res.sendFile(__dirname + '/client/demographics.html');
     }
     else
@@ -148,7 +148,7 @@ function createWorkflows()
     var totalWorkflowCount = 4;
 
     var workflows = {};
-    //var sessions = {};//moved to global field area
+    //var sessions = {}; //moved to global field area
 
     // Create a JSON object for each workflow and a corresponding first session for each workflow
     for (var i=0; i < totalWorkflowCount; i++) {
@@ -367,7 +367,7 @@ function sessionCompleted(sessionID) // update Firebase
 {
     //1. Add the sessionID that was just finished --> Add to where? Firebase? Or should I create another array?
     //2. Check the corresponding workflow to see if there are more sessions for this workflow. If so,
-    // create a new session and add it to the end of the session list. // use  if (sessions[workflowID]) == 0? in another function
+    //   create a new session and add it to the end of the session list. // use  if (sessions[workflowID]) == 0? in another function
     //3. Remove this session from status.activeSessions --> Firebase
     //4. Each worker should set its logged out time when it leaves session.
 
