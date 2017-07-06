@@ -157,7 +157,7 @@ function createWorkflows()
         workflow.workflowURL = pastebinURL;//+'workflowXYZ' + i;
 
         workflow.timeLimitMins = 10;
-        workflow.participantsPerSession = 2;
+        workflow.participantsPerSession = 1;
         workflow.totalSessions = Math.floor((Math.random() * 4) + 1);
         var workflowID = i;
         workflows[workflowID] = workflow;

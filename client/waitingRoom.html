@@ -317,13 +317,12 @@
 			//changed from a colon to a semicolon
 			//currentIndex > 0 ? --currentIndex : len2 - 1;
 
-
-            if (currentIndex = this.value == "Next")
+            if (!(++currentIndex > len))
             {
-            	++currentIndex;
+	            $('#sideFrame').attr('src', locations[currentIndex]);
             }
 
-			$('#frame').attr('src', locations[currentIndex]);
+			// $('#frame').attr('src', locations[currentIndex]);
 		});
 	});
 </script>
