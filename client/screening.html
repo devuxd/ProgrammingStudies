@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css"/>
 
     <style type="text/css" media="screen">
         .codeBox {
@@ -27,7 +27,8 @@
             <div class="col-md-10" style="padding-left: 0px; padding-right: 0px">
                 <div class="bs-callout bs-callout-primary">
                     <h2>Javascript Programming Task - Screening Task</h2>
-                </div><BR>
+                </div>
+                <BR>
 
                 <form id="mainForm" action="/screen_submitted" method="post">
 
@@ -44,22 +45,23 @@
                     </div>
                     <BR>What is the value printed to the console in the program above?
                     <fieldset>
-                        <input type="radio" name="question1" value="[1,2,3,4,5]" /> [1,2,3,4,5]<br />
-                        <input type="radio" name="question1" value="[1,2,3,4,5,5]" /> [1,2,3,4,5,5]<br />
-                        <input type="radio" name="question1" value="0" /> 0<br />
-                        <input type="radio" name="question1" value="2" /> 2<br />
-                        <input type="radio" name="question1" value="3" /> 3<br />
-                        <input type="radio" name="question1" value="4" /> 4<br />
-                        <input type="radio" name="question1" value="6" /> 6<br />
-                        <input type="radio" name="question1" value="7" /> 7<br />
-                        <input type="radio" name="question1" value="10" /> 10<br />
-                        <input type="radio" name="question1" value="12" /> 12<br />
-                        <input type="radio" name="question1" value="15" /> 15<br />
+                        <input type="radio" name="question1" value="[1,2,3,4,5]"/> [1,2,3,4,5]<br/>
+                        <input type="radio" name="question1" value="[1,2,3,4,5,5]"/> [1,2,3,4,5,5]<br/>
+                        <input type="radio" name="question1" value="0"/> 0<br/>
+                        <input type="radio" name="question1" value="2"/> 2<br/>
+                        <input type="radio" name="question1" value="3"/> 3<br/>
+                        <input type="radio" name="question1" value="4"/> 4<br/>
+                        <input type="radio" name="question1" value="6"/> 6<br/>
+                        <input type="radio" name="question1" value="7"/> 7<br/>
+                        <input type="radio" name="question1" value="10"/> 10<br/>
+                        <input type="radio" name="question1" value="12"/> 12<br/>
+                        <input type="radio" name="question1" value="15"/> 15<br/>
                     </fieldset>
 
                     <input type="hidden" name="taskTimeMillis" id="taskTimeMillis"/>
 
-                    <br><br><button id="submitPage" class="btn btn-primary">Submit</button>
+                    <br><br>
+                    <button id="submitPage" class="btn btn-primary">Submit</button>
 
                 </form>
 
@@ -77,15 +79,14 @@
     question1Editor.setReadOnly(true);
 
     var startTime = new Date();
-    var startTimeMillis =  startTime.getTime();
+    var startTimeMillis = startTime.getTime();
 
-    $('#submitPage').click(function()
-    {
+    $('#submitPage').click(function () {
         var endTime = new Date();
         var taskTimeMillis = endTime.getTime() - startTimeMillis;
         $('#taskTimeMillis').val(taskTimeMillis);
 
-        // submit workerID and time to take test
+        // Submit workerID and time to take test.
         $('#mainForm').submit();
     });
 

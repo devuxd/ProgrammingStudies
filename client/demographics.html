@@ -5,66 +5,69 @@
     <title>Programming Studies</title>
     <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css"/>
     <style type="text/css">
-
         div {
-            border-bottom: 1px solid #efefef;
+            border-bottom: 2px solid #efefef;
             margin: 10px;
             padding-bottom: 10px;
-
             width: 400px;
         }
-        .radio-buttons label {
-            float: none;}
 
+        .radio-buttons label {
+            float: none;
+        }
+
+        .black-label label {
+            font-family: sans-serif;
+            color: #000000;
+        }
     </style>
     <script>
-        $( document ).ready(function() {
-            console.log( "document loaded" );
+        $(document).ready(function () {
+            console.log("document loaded");
         });
 
-        $( window ).on( "load", function() {
-            console.log( "window loaded" );
+        $(window).on("load", function () {
+            console.log("window loaded");
         });
-       // resetNewUsers();
+        // resetNewUsers();
     </script>
 </head>
 <body>
 
 <div class="main-div">
-
-    <form id="signup" name="signup" action="/ProgrammingStudy" method="post" >
+    <form id="signup" name="signup" action="/ProgrammingStudy" method="post">
+        <div></div>
         <div>
-            <label for="workerID" class="label">ParticipantID</label>
-            <input type="text" name="workerID" required="required" id="workerID" size="36"
-                   placeholder="Enter string"/>
+            <label for="workerID" class="black-label">Participant ID</label><t><br></t>
+            <input type="text" name="workerID" required="required" id="workerID" size="36" placeholder="Enter String"/>
         </div>
 
         <div>
-            <label for="currentstatus" class="label">Current status</label>
+            <label for="currentstatus" class="black-label">Current Status</label>
             <select name="currentstatus" id="currentstatus">
-                <option value="cs undergrad">CS undergrad</option>
-                <option value="undergrad">Undergrad</option>
-                <option value="grad student">Grad student</option>
+                <option value="cs undergrad">CS Undergraduate</option>
+                <option value="undergrad">Undergraduate</option>
+                <option value="grad student">Graduate Student</option>
                 <option value="professional">Professional</option>
             </select>
         </div>
         <div>
 
-            <label for="yearsExp" class="label">Years of experience programming in javascript</label>
+            <label for="yearsExp" class="black-label">Years of Experience Programming in Javascript</label>
             <input type="text" name="yearsExp" required="required" id="yearsExp" size="36"
-                   placeholder="Enter number" />
+                   placeholder="Enter Number"/>
         </div>
         <div>
-            <label for="workDevExp" class="label">
-                Years of industry experience as software developer, if any (internships, full time positions)
+            <label for="workDevExp" class="black-label">
+                Years of Industry Experience as Software Developer<br>(Internships, Full Time Positions)
             </label>
-            <input type="text" name="workDevExp" required="required"  id="workDevExp" size="36"
-                   placeholder="Enter number"/>
+            <input type="text" name="workDevExp" required="required" id="workDevExp" size="36"
+                   placeholder="Enter Number"/>
         </div>
 
         <input type="hidden" name="demographicsCollectTimeMillis" id="demographicsCollectTimeMillis"/>
@@ -74,25 +77,24 @@
         </div>
     </form>
 
-    <!-- <h2></h2> --> <!-- Waiting for participants to join. -->
-    <!--  SEARCH TRACKER -->
     <p id="tracking"></p>
 
+    <script>
+        $('#tracking').hide();
+    </script>
 </div>
 
 <script>
-
-
     var startTime = new Date();
-    var startTimeMillis =  startTime.getTime();
+    var startTimeMillis = startTime.getTime();
 
-    $('#submitDemographics').click(function() {
-        $('#signup').submit(function(){
-            var userID =  $('#workerID').val();
+    $('#submitDemographics').click(function () {
+        $('#signup').submit(function () {
+            var userID = $('#workerID').val();
             if (userID == '') {
-                alert('Please supply a name in the Name field.');
+                alert('Please Supply A Name!');
                 return false;
-            }else{
+            } else {
                 var endTime = new Date();
                 var taskTimeMillis = endTime.getTime() - startTimeMillis;
                 $('#demographicsCollectTimeMillis').val(taskTimeMillis);
@@ -107,29 +109,27 @@
         });
     });
 
-
-
-/**
+    /*
     $('#main_wrap').hide();
     $('#content').hide();
     $('#sidebar').hide();
 
-    $('#submitDemographics').click(function() {
-        $('#signup').submit(function(){
-            var userID =  $('#workerID').val();
+    $('#submitDemographics').click(function () {
+        $('#signup').submit(function () {
+            var userID = $('#workerID').val();
             if (userID == '') {
                 alert('Please supply a name in the Name field.');
                 return false;
-            }else{
+            } else {
 
                 $('#signup').hide(); //hide the form
                 $('h2').text("Waiting for participants to join.");
 
-                console.log( "\nI am here\n");
+                console.log("\nI am here\n");
                 var waitListRef = new Firebase('https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1/waitlist');
 
                 // Add an entry to the waitlist to start waiting for a session to be assigned.
-                var waitEntryRef = waitListRef.push({ "workerId": userID});
+                var waitEntryRef = waitListRef.push({"workerId": userID});
 
                 // If we disconnect before we get assigned a room, remove us from the waiting list.
                 waitEntryRef.onDisconnect().set(null);
@@ -140,7 +140,7 @@
 
                 // When the server assigns a session for us, it will set in on firebase. Watch for this to happen. When it
                 // does, join the session.
-                waitEntryRef.on("child_added", function(snapshot) {
+                waitEntryRef.on("child_added", function (snapshot) {
                     var key = snapshot.key();
                     if (key == 'sessionURL') {
                         // Navigate to the server session URL, making sure to disable the back button for this URL
@@ -153,135 +153,135 @@
                         $('#content').show();
                         $('#sidebar').show();
 
-                        $('#frame').attr('src',snapshot.val());
+                        $('#frame').attr('src', snapshot.val());
                         waitEntryRef.set(null); //clear wait list
                     }
                 });
             }
         });
     });
-*/
+    */
 </script>
 
 <script>
-    //TODO: make all variable generic
+    //TODO: Make All Variables Generic
     //used for item search
-    var candidateStage = [ ];
-    var countTracker= [ ];
+    var candidateStage = [];
+    var countTracker = [];
     var index;
 
     //------------------------------------------------
-    // use this function to reset state
+    // Use this function to reset state.
     //------------------------------------------------
-    function resetStage(){
+    function resetStage() {
         localStorage.removeItem("candidate");
-       // localStorage.removeItem("numOfSearches");
+        // localStorage.removeItem("numOfSearches");
     }
 
-    function stageCandidate(){
-
+    function stageCandidate() {
         var display = document.getElementById("tracking");
         //resetGameTracker();
-        if(typeof(Storage) !== "undefined") {
+        if (typeof(Storage) !== "undefined") {
 
             var candidateId = $("#workerID").val();
             var newUser = candidateId;
 
             var curr_name = candidateId;
+
             function findName(element) {
                 return element == curr_name;
             }
+
             // storing our arrays as a strings
             // initialize storage
-            if(localStorage.getItem("candidate") == null){
+            if (localStorage.getItem("candidate") == null) {
                 localStorage.setItem("candidate", JSON.stringify(candidateStage));
-               // localStorage.setItem("numOfSearches", JSON.stringify(countTracker));
+                // localStorage.setItem("numOfSearches", JSON.stringify(countTracker));
             }
 
             // retrieving our data and converting it back into an array
-            var  presentCandidate = localStorage.getItem("candidate");
-           // timesSearched = localStorage.getItem("numOfSearches");
-            if(presentCandidate != null){
+            var presentCandidate = localStorage.getItem("candidate");
+            // timesSearched = localStorage.getItem("numOfSearches");
+            if (presentCandidate != null) {
                 candidateStage = JSON.parse(presentCandidate);
-               // countTracker = JSON.parse(timesSearched);
+                // countTracker = JSON.parse(timesSearched);
 
                 index = candidateStage.findIndex(findName);
-                if(index == -1){ //if not tracked
+                if (index == -1) { //if not tracked
                     candidateStage.push(curr_name);
-                   // countTracker.push(1);
+                    // countTracker.push(1);
                     localStorage.setItem("candidate", JSON.stringify(candidateStage));
                     //localStorage.setItem("numOfSearches", JSON.stringify(countTracker));
-                    display.innerHTML = curr_name +"<br />";
+                    display.innerHTML = curr_name + "<br />";
 
-                }else{// inc count
+                } else {// inc count
                     //countTracker[index] = countTracker[index] + 1;
-                   // localStorage.setItem("numOfSearches", JSON.stringify(countTracker));
+                    // localStorage.setItem("numOfSearches", JSON.stringify(countTracker));
                 }
             }
 
-            if( typeof(candidateStage[index]) == "undefined"){
-                candidateStage[index]  = 0;
+            if (typeof(candidateStage[index]) == "undefined") {
+                candidateStage[index] = 0;
                 //countTracker[index] = 0;
-            }else if(candidateStage[index] == 0){
+            } else if (candidateStage[index] == 0) {
                 //display.innerHTML = "first time searched "+"<br />";
-            }else{
-               // display.innerHTML = candidateStage[index]+"<br />";
+            } else {
+                // display.innerHTML = candidateStage[index]+"<br />";
             }
 
         } else {
-          //  display.innerHTML = "Sorry, your browser does not support web storage...";
+            //  display.innerHTML = "Sorry, your browser does not support web storage...";
         }
     }
 </script>
 
-
 <script>
-    var candidateAll = [ ];
+    var candidateAll = [];
 
     //------------------------------------------------
     // use this function to reset state
     //------------------------------------------------
-    function resetNewUsers(){
+    function resetNewUsers() {
         localStorage.removeItem("newUsersKey");
     }
 
-    function stageNewUsers(){
-
+    function stageNewUsers() {
         var display = document.getElementById("tracking");
 
-        if(typeof(Storage) !== "undefined") {
+        if (typeof(Storage) !== "undefined") {
 
-            var newUser  = $("#workerID").val();
+            var newUser = $("#workerID").val();
 
             //if not initialized do it now
-            if(localStorage.getItem("newUsersKey") == null){
+            if (localStorage.getItem("newUsersKey") == null) {
                 localStorage.setItem("newUsersKey", JSON.stringify(candidateAll));
             }
 
             // retrieving our data and converting it back into an array
             var presentUsers = localStorage.getItem("newUsersKey");
-            if(presentUsers  != null){
+            if (presentUsers != null) {
                 candidateAll = JSON.parse(presentUsers);
                 candidateAll.push(newUser);
                 localStorage.setItem("newUsersKey", JSON.stringify(candidateAll));
             }
 
-
             var presentUsers = localStorage.getItem("newUsersKey");
-            if(presentUsers  != null){
+            if (presentUsers != null) {
                 candidateAll = JSON.parse(presentUsers);
             }
 
             //position
             var curr_name = newUser;
+
             function findUser(element) {
                 return element == curr_name;
             }
+
             var index = candidateAll.findIndex(findUser);
-            if(index == -1){ //if not tracked
+            if (index == -1) { //if not tracked
                 candidateAll.push(curr_name);
                 localStorage.setItem("newUsersKey", JSON.stringify(candidateAll));
-            }else{
+            } else {
                 //candidateAll[index] = 'xyz';
                 //candidateAll[index] = curr_name;
                 //candidateAll.push(curr_name);
@@ -290,7 +290,6 @@
         }
     }
 </script>
-
 
 </body>
 </html>
