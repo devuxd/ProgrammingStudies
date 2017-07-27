@@ -7,9 +7,9 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var Firebase = require("firebase");
-var favicon = require('serve-favicon');
-var path = require('path');
+var Firebase = require('firebase');
+// var favicon = require('serve-favicon');
+// var path = require('path');
 var firebaseStudyURL = 'https://programmingstudies.firebaseio.com/studies/microtaskWorkflow/test1';
 //var pastebinURL = 'https://seecoderun.firebaseapp.com/#-';
 var pastebinURL = 'https://seecoderun.firebaseio.com/test/-workflowXYZ0/content/share/events';
@@ -23,7 +23,7 @@ var activeSessions = {};
 var screenTaskTime; //time spent on screening task
 var flag = false;
 
-app.use(favicon(path.join(__dirname, 'client', 'favicon.ico')))
+// app.use(favicon(path.join(__dirname, 'client', 'favicon.ico')))
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('client'));
